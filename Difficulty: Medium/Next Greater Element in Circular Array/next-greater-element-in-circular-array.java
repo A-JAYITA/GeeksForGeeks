@@ -1,25 +1,25 @@
 class Solution {
-    public ArrayList<Integer> nextLargerElement(int[] arr) {
+    public ArrayList<Integer> nextGreater(int[] arr) {
+        // code here
         int n=arr.length;
         Stack<Integer>st=new Stack<>();
-        ArrayList<Integer>ans=new ArrayList<>();
         for(int i=n-2;i>=0;i--)
         {
-            int num=arr[i];
-            while(!st.isEmpty() && st.peek()<=num)
+            while(!st.isEmpty()  && st.peek()<=arr[i])
             {
                 st.pop();
             }
-            st.push(num);
+            st.push(arr[i]);
         }
+        ArrayList<Integer>ans=new ArrayList<>();
         for(int i=n-1;i>=0;i--)
         {
-            while(!st.isEmpty() && st.peek()<=arr[i])
+            while(!st.isEmpty()  && st.peek()<=arr[i])
             {
                 st.pop();
             }
-            if(!st.isEmpty())ans.add(st.peek());
-            else ans.add(-1);
+            if(st.isEmpty())ans.add(-1);
+            else ans.add(st.peek());
             st.push(arr[i]);
         }
         Collections.reverse(ans);
