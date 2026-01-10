@@ -1,33 +1,26 @@
-// User function Template for Java
-
 class Solution {
-    int countSubstr(String s, int k) {
-        return atMostK(s, k) - atMostK(s, k - 1);
-    }
+    public int atMost(String s, int k) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        int l = 0, r = 0, cnt = 0;
+        int n = s.length();
 
-    // Helper method to count substrings with at most k distinct characters
-    private int atMostK(String s, int k) {
-        int[] freq = new int[26]; // since the string has only lowercase letters
-        int left = 0, right = 0, count = 0, distinct = 0;
+        while (l < n) {
+            map.put(s.charAt(l), map.getOrDefault(s.charAt(l), 0) + 1);
 
-        while (right < s.length()) {
-            if (freq[s.charAt(right) - 'a'] == 0) {
-                distinct++;
-            }
-            freq[s.charAt(right) - 'a']++;
-            right++;
-
-            while (distinct > k) {
-                freq[s.charAt(left) - 'a']--;
-                if (freq[s.charAt(left) - 'a'] == 0) {
-                    distinct--;
-                }
-                left++;
+            while (map.size() > k) {
+                map.put(s.charAt(r), map.get(s.charAt(r)) - 1);
+                if (map.get(s.charAt(r)) == 0)
+                    map.remove(s.charAt(r));
+                r++;
             }
 
-            count += right - left;
+            cnt += l - r + 1;
+            l++;
         }
-
-        return count;
+        return cnt;
     }
+    public int countSubstr(String s, int k){
+        return atMost(s,k)- atMost(s,k-1);
+    }
+    
 }
