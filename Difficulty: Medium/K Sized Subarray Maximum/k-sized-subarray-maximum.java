@@ -1,23 +1,18 @@
 class Solution {
     public ArrayList<Integer> maxOfSubarrays(int[] arr, int k) {
-        // code here
-        
-        ArrayList<Integer> ansList = new ArrayList<>();
-        ArrayDeque<Integer> dq = new ArrayDeque<>();
-        
-        for(int i = 0 ; i < arr.length ; i++){
-            while(!dq.isEmpty() && arr[dq.getLast()] < arr[i]){
-                dq.removeLast();
-            }
-            dq.addLast(i);
-            
-            if(dq.getFirst() + k == i){
-                dq.removeFirst();
-            }
-            if(i >= k-1){
-                ansList.add(arr[dq.getFirst()]);
+        ArrayList<Integer> list = new ArrayList<>();
+        Deque<Integer> dq = new ArrayDeque<>();
+        int idx = 0;
+        int n = arr.length;
+        for(int right = 0; right < n; right++){
+            if(!dq.isEmpty() && dq.peekFirst() < right - k + 1)
+            dq.pollFirst();
+            while(!dq.isEmpty() && arr[dq.peekLast()] < arr[right]) dq.pollLast();
+            dq.offerLast(right);
+            if(right >= k - 1){
+                list.add(arr[dq.peekFirst()]);
             }
         }
-        return ansList;
+        return list;
     }
 }
