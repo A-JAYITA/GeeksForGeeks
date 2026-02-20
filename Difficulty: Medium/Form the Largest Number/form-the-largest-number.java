@@ -1,20 +1,24 @@
 class Solution {
-    public String findLargest(int[] arr) {
-        // code here
-        int n = arr.length;
-        String [] nums = new String[n];
-        for(int i=0;i<n;i++){
-            nums[i] = Integer.toString(arr[i]);
+    public String findLargest(int[] arr) 
+    {
+        String s[]= new String[arr.length];
+        int x=0;
+        StringBuilder ans= new StringBuilder();
+        for(int n:arr)
+        {
+            s[x++]=String.valueOf(n);
         }
         
-        Arrays.sort(nums,(a,b)->(b+a).compareTo(a+b));
+        if(s[0].equals("0"))
+            return "0"; //when all inputs are 0
         
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<n;i++){
-            sb.append(nums[i]);
+        Arrays.sort(s, (a,b) -> (b+a).compareTo(a+b));
+        
+        for(String ss:s)
+        {
+            ans.append(ss);
         }
-        String ans = sb.toString();
-        if(ans.charAt(0)=='0') return "0";
-        return ans;
+        
+        return ans.toString();
     }
 }
