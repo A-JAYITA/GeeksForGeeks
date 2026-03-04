@@ -1,6 +1,5 @@
 class Solution {
     public int maxSubarrayXOR(int[] arr, int k) {
-        // code here
         int x=0;
         for(int i=0;i<k;i++){
             x^=arr[i];
