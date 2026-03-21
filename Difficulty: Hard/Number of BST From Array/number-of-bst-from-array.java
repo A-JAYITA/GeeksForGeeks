@@ -1,33 +1,37 @@
 class Solution {
-   // public ArrayList<Integer> countBSTs(int[] arr) {
-        // Code here
-  static int[] computeCatalan(int n) {
-        int[] cat = new int[n + 1];
-        cat[0] = cat[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            for (int j = 0; j < i; j++) {
-                cat[i] += cat[j] * cat[i - 1 - j];
-            }
-        }
-        return cat;
+    public ArrayList<Integer> countBSTs(int[] arr) {
+    int n=arr.length;
+    long[]cat=getCatlan(n);
+    int[]sortArray=arr.clone();
+    Arrays.sort(sortArray);
+    ArrayList<Integer>ans=new ArrayList<>();
+    for(int e:arr){
+        int leftCnt=findFirstOcc(sortArray,e);
+        int rightCnt=n-1-leftCnt;
+        ans.add((int)(cat[leftCnt]*cat[rightCnt]));
     }
-
-   
-    public static ArrayList<Integer> countBSTs(int[] arr) {
-        int n = arr.length;
-        int[] catalan = computeCatalan(n);
-        ArrayList<Integer> result = new ArrayList<>();
-
-        int[] sorted = arr.clone();
-        Arrays.sort(sorted);
-
-        for (int i = 0; i < n; i++) {
-            int idx = Arrays.binarySearch(sorted, arr[i]);
-            int left = idx;
-            int right = n - idx - 1;
-            result.add(catalan[left] * catalan[right]);
-        }
-
-        return result;
+     return ans;  
     }
+    private long[]getCatlan(int n){
+        long[]c=new long[n+1];
+        c[0]=1;
+        if(n>0) c[1]=1;
+        for(int i=2;i<=n;i++)
+        for(int j=0;j<i;j++){
+            c[i]+=(c[j]*c[i-1-j]);
+        }
+        return c;
+    }
+    private int findFirstOcc(int[]arr,int target){
+        int low=0,high=arr.length-1;
+        while(low<high){
+            int mid=low+(high-low)/2;
+            if(arr[mid]<target)
+                //ans=mid;
+                low=mid+1;
+            else
+            high=mid;
+        }
+        return low;
+        }
 }
